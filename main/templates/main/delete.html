@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Удалить животное
+{% endblock %}
+
+{% block content %}
+    <h1 class="title"><center>Удаление записи</center></h1>
+    <form class="form" method="post">
+        {% csrf_token %}
+        <p style="font-size:140%;">Вы уверены?</p>
+        <a href="{% url 'home' %}" class="btn btn-light">Отменить</a>
+        <button class="btn btn-danger" type="submit"> Удалить </button>
+    </form>
+{% endblock %}

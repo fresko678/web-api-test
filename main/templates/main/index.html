@@ -1,0 +1,54 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Список животных
+{% endblock %}
+
+{% block content %}
+    <h1 class="title">Список животных в приюте</h1><br>
+    <form class="filter" method="get">
+        {{ animal_filter.form }}
+        <button type="submit" class="btn btn-outline-primary">Фильтровать</button>
+
+    </form><br>
+    {% if animals %}
+        <table class="table table-striped table-hover" style="width:100%">
+            <tr>
+                <th>Тип животного</th>
+                <th>Кличка</th>
+                <th>Дата рождения</th>
+                <th>Возраст</th>
+                <th>Рост, см</th>
+                <th>Вес, кг</th>
+                <th>Наличие паспорта</th>
+                <th>Номер паспорта</th>
+            </tr>
+        {% for animal in animals %}
+            <tr>
+                <td>{{ animal.type }}</td>
+                <td>{{ animal.name }}</td>
+                <td>{{ animal.birthday }}</td>
+                <td>{{ animal.birthday|timesince }}</td>
+                <td>{{ animal.height }}</td>
+                <td>{{ animal.weight }}</td>
+                {% if animal.pass_num %}
+                    <td> Есть </td>
+                {% else %}
+                    <td> Нет </td>
+                {% endif %}
+                {% if animal.pass_num %}
+                    <td>{{ animal.pass_num }}</td>
+                {% else %}
+                    <td> - </td>
+                {% endif %}
+                <td width="5%"><a href="{% url 'update' animal.id %}" class="btn btn-outline-info">Редактировать</a></td>
+                <td width="5%"><a href="{% url 'delete' animal.id  %}" class="btn btn-danger">Удалить</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <p>Нет записей</p>
+    {% endif %}
+        <br>
+        <a href="{% url 'add' %}" class="btn btn-primary">Добавить животное</a>
+{% endblock %}
