@@ -6,9 +6,10 @@
 
 {% block content %}
     <h1 class="title"><center>Форма добавления животного</center></h1>
+
     <form class="form" method="post">
         {% csrf_token %}
-        {{ form.type }}<br>
+        {{ form.type }}<br><br>
         {{ form.name }}<br>
         {{ form.birthday }}<br>
         {{ form.height }}<br>
@@ -22,7 +23,6 @@
            }
         </script>
         {{ form.pass_num }}<br>
-        <span style="color:red"> {{ error }} </span>
         <br>
         <button class="btn btn-success" type="submit"> Сохранить </button>
     </form>

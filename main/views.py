@@ -1,43 +1,20 @@
-from django.shortcuts import render, redirect
-from .models import Animal
-from .forms import AnimalForm
-from django.views.generic import UpdateView, DeleteView
-from .filters import AnimalFilter
+from main.models import Animal
+from main.forms import AnimalForm
+from django.views.generic import UpdateView, DeleteView, CreateView
+from django_filters.views import FilterView
+from main.filters import AnimalFilter
 
 
-def index(request):
-    animals = Animal.objects.all()
-
-    animal_filter = AnimalFilter(request.GET, queryset=animals)
-    animals = animal_filter.qs
-
-    data = {
-        'animals': animals,
-        'animal_filter': animal_filter
-    }
-
-    return render(request, 'main/index.html', data)
+class List(FilterView):
+    model = Animal
+    template_name = 'main/index.html'
+    filterset_class = AnimalFilter
 
 
-def add(request):
-    error = ''
-
-    if request.method == 'POST':
-        form = AnimalForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-        else:
-            error = 'Неверное значение'
-
-    form = AnimalForm()
-
-    data = {
-        'form': form,
-        'error': error
-    }
-
-    return render(request, 'main/add.html', data)
+class Create(CreateView):
+    model = Animal
+    template_name = 'main/add.html'
+    form_class = AnimalForm
 
 
 class Update(UpdateView):

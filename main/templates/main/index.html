@@ -7,11 +7,10 @@
 {% block content %}
     <h1 class="title">Список животных в приюте</h1><br>
     <form class="filter" method="get">
-        {{ animal_filter.form }}
+        {{ filter.form.as_p }}
         <button type="submit" class="btn btn-outline-primary">Фильтровать</button>
-
     </form><br>
-    {% if animals %}
+    {% if object_list %}
         <table class="table table-striped table-hover" style="width:100%">
             <tr>
                 <th>Тип животного</th>
@@ -23,26 +22,26 @@
                 <th>Наличие паспорта</th>
                 <th>Номер паспорта</th>
             </tr>
-        {% for animal in animals %}
+        {% for object in filter.qs %}
             <tr>
-                <td>{{ animal.type }}</td>
-                <td>{{ animal.name }}</td>
-                <td>{{ animal.birthday }}</td>
-                <td>{{ animal.birthday|timesince }}</td>
-                <td>{{ animal.height }}</td>
-                <td>{{ animal.weight }}</td>
-                {% if animal.pass_num %}
+                <td>{{ object.type }}</td>
+                <td>{{ object.name }}</td>
+                <td>{{ object.birthday }}</td>
+                <td>{{ object.birthday|timesince }}</td>
+                <td>{{ object.height }}</td>
+                <td>{{ object.weight }}</td>
+                {% if object.passport %}
                     <td> Есть </td>
                 {% else %}
                     <td> Нет </td>
                 {% endif %}
-                {% if animal.pass_num %}
-                    <td>{{ animal.pass_num }}</td>
+                {% if object.pass_num %}
+                    <td>{{ object.pass_num }}</td>
                 {% else %}
                     <td> - </td>
                 {% endif %}
-                <td width="5%"><a href="{% url 'update' animal.id %}" class="btn btn-outline-info">Редактировать</a></td>
-                <td width="5%"><a href="{% url 'delete' animal.id  %}" class="btn btn-danger">Удалить</a></td>
+                <td width="5%"><a href="{% url 'update' object.id %}" class="btn btn-outline-info">Редактировать</a></td>
+                <td width="5%"><a href="{% url 'delete' object.id  %}" class="btn btn-danger">Удалить</a></td>
             </tr>
         {% endfor %}
         </table>
